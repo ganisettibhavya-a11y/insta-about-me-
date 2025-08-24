@@ -73,6 +73,16 @@ footer { background:#222; color:white; padding:15px 0; font-size:14px; }
   background: #ffd54f;
   transform: rotateY(180deg);
 }
+.funny-desc {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #ff6f91;
+  margin-bottom: 20px;
+  font-style: italic;
+  background: linear-gradient(90deg, #ff758c, #ffb347);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 .card.matched {
   background: #91eae4;
