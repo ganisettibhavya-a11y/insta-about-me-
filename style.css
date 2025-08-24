@@ -74,15 +74,16 @@ footer { background:#222; color:white; padding:15px 0; font-size:14px; }
   transform: rotateY(180deg);
 }
 .funny-desc {
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: 1.5rem;           /* bigger text so emojis are visible */
+  font-weight: 600;
   color: #ff6f91;
   margin-bottom: 20px;
   font-style: italic;
-  background: linear-gradient(90deg, #ff758c, #ffb347);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  line-height: 1.6;            /* prevents emojis from overlapping */
+  text-align: center;
+  font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'sans-serif';
 }
+
 
 .card.matched {
   background: #91eae4;
