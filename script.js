@@ -44,48 +44,37 @@ function startGame() {
 }
 
 function flipCard(card) {
-if (firstCard.dataset.emoji === secondCard.dataset.emoji) {
-  firstCard.classList.add('matched');
-  secondCard.classList.add('matched');
-  matched += 2;
+  if (card.classList.contains('flipped') || card.classList.contains('matched') || busy) return;
 
-  // Save/update leaderboard immediately
-  const player = document.getElementById('playerName').value || 'Anonymous';
-  const matchedPairs = matched / 2;
+  card.textContent = card.dataset.emoji;
+  card.classList.add('flipped');
 
-  // Update leaderboard array
-  const existingIndex = leaderboard.findIndex(entry => entry.player === player);
-  if (existingIndex !== -1) {
-    leaderboard[existingIndex].matchedPairs = matchedPairs; // update existing player
+  if (!firstCard) {
+    firstCard = card;
   } else {
-    leaderboard.push({player, matchedPairs}); // new player
+    secondCard = card;
+    moves++;
+    movesCount.textContent = moves;
+
+    if (firstCard.dataset.emoji === secondCard.dataset.emoji) {
+      firstCard.classList.add('matched');
+      secondCard.classList.add('matched');
+      matched += 2;
+      resetFlip();
+      if (matched === gameEmojis.length) endGame(document.getElementById('playerName').value || 'Anonymous');
+    } else {
+      busy = true;
+      setTimeout(() => {
+        firstCard.textContent = '';
+        secondCard.textContent = '';
+        firstCard.classList.remove('flipped');
+        secondCard.classList.remove('flipped');
+        resetFlip();
+        busy = false;
+      }, 800);
+    }
   }
-
-  // Sort and limit top 5
-  leaderboard.sort((a,b) => b.matchedPairs - a.matchedPairs);
-  if (leaderboard.length > 5) leaderboard.splice(5);
-
-  // Save to localStorage and update display
-  localStorage.setItem('memoryLeaderboard', JSON.stringify(leaderboard));
-  updateLeaderboard();
-
-  resetFlip();
-
-  if (matched === gameEmojis.length) endGame(player); // game finished
-} else {
-  // Not matched
-  busy = true;
-  setTimeout(() => {
-    firstCard.textContent = '';
-    secondCard.textContent = '';
-    firstCard.classList.remove('flipped');
-    secondCard.classList.remove('flipped');
-    resetFlip();
-    busy = false;
-  }, 800);
 }
-}
-  
 
 function resetFlip() {
   firstCard = null;
