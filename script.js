@@ -1,10 +1,12 @@
 const emojis = ['💻','🎨','🚀','📚','😂','🐾','☕','🍕','😎','😹'];
 let gameEmojis = [];
-let firstCard, secondCard;
+let firstCard = null;
+let secondCard = null;
 let moves = 0;
 let matched = 0;
 let timeLeft = 20;
 let timerInterval;
+let busy = false; // To prevent clicking while cards flip back
 
 // Leaderboard from localStorage
 const leaderboard = JSON.parse(localStorage.getItem('memoryLeaderboard') || '[]');
@@ -20,15 +22,12 @@ function startGame() {
   movesCount.textContent = moves;
   timerDisplay.textContent = timeLeft;
 
-  // Clear previous board
   memoryBoard.innerHTML = '';
 
-  // Prepare emojis (10 pairs)
   gameEmojis = [...emojis, ...emojis];
   gameEmojis.sort(() => Math.random() - 0.5);
 
-  // Create cards
-  gameEmojis.forEach((emoji, index) => {
+  gameEmojis.forEach((emoji) => {
     const card = document.createElement('div');
     card.classList.add('card');
     card.dataset.emoji = emoji;
@@ -36,74 +35,86 @@ function startGame() {
     memoryBoard.appendChild(card);
   });
 
-  // Start timer
   clearInterval(timerInterval);
   timerInterval = setInterval(() => {
     timeLeft--;
     timerDisplay.textContent = timeLeft;
-    if(timeLeft <= 0) endGame(player);
+    if (timeLeft <= 0) endGame(player);
   }, 1000);
 }
 
-function flipCard(card){
-  if(card.classList.contains('flipped') || card.classList.contains('matched')) return;
-  card.textContent = card.dataset.emoji;
-  card.classList.add('flipped');
+function flipCard(card) {
+if (firstCard.dataset.emoji === secondCard.dataset.emoji) {
+  firstCard.classList.add('matched');
+  secondCard.classList.add('matched');
+  matched += 2;
 
-  if(!firstCard){
-    firstCard = card;
+  // Save/update leaderboard immediately
+  const player = document.getElementById('playerName').value || 'Anonymous';
+  const matchedPairs = matched / 2;
+
+  // Update leaderboard array
+  const existingIndex = leaderboard.findIndex(entry => entry.player === player);
+  if (existingIndex !== -1) {
+    leaderboard[existingIndex].matchedPairs = matchedPairs; // update existing player
   } else {
-    secondCard = card;
-    moves++;
-    movesCount.textContent = moves;
-    checkMatch();
+    leaderboard.push({player, matchedPairs}); // new player
   }
-}
 
-function checkMatch(){
-  if(firstCard.dataset.emoji === secondCard.dataset.emoji){
-    firstCard.classList.add('matched');
-    secondCard.classList.add('matched');
-    matched += 2;
+  // Sort and limit top 5
+  leaderboard.sort((a,b) => b.matchedPairs - a.matchedPairs);
+  if (leaderboard.length > 5) leaderboard.splice(5);
+
+  // Save to localStorage and update display
+  localStorage.setItem('memoryLeaderboard', JSON.stringify(leaderboard));
+  updateLeaderboard();
+
+  resetFlip();
+
+  if (matched === gameEmojis.length) endGame(player); // game finished
+} else {
+  // Not matched
+  busy = true;
+  setTimeout(() => {
+    firstCard.textContent = '';
+    secondCard.textContent = '';
+    firstCard.classList.remove('flipped');
+    secondCard.classList.remove('flipped');
     resetFlip();
-    if(matched === gameEmojis.length) endGame(document.getElementById('playerName').value || 'Anonymous');
-  } else {
-    setTimeout(() => {
-      firstCard.textContent = '';
-      secondCard.textContent = '';
-      resetFlip();
-    }, 800);
-  }
+    busy = false;
+  }, 800);
 }
+}
+  
 
-function resetFlip(){
+function resetFlip() {
   firstCard = null;
   secondCard = null;
 }
 
-function endGame(player){
+function endGame(player) {
   clearInterval(timerInterval);
-  alert(`Game Over! Moves: ${moves}`);
+  const matchedPairs = matched / 2; // total matched pairs
+  alert(`Game Over! Matched Pairs: ${matchedPairs}`);
 
   // Save to leaderboard
-  leaderboard.push({player, moves});
-  leaderboard.sort((a,b)=> a.moves - b.moves);
-  if(leaderboard.length>5) leaderboard.splice(5); // keep top 5
+  leaderboard.push({player, matchedPairs});
+  leaderboard.sort((a, b) => b.matchedPairs - a.matchedPairs); // highest first
+  if (leaderboard.length > 5) leaderboard.splice(5);
   localStorage.setItem('memoryLeaderboard', JSON.stringify(leaderboard));
   updateLeaderboard();
 }
 
-// Show leaderboard
-function updateLeaderboard(){
+
+function updateLeaderboard() {
   memoryLeaderboard.innerHTML = '';
   leaderboard.forEach(entry => {
     const li = document.createElement('li');
-    li.textContent = `${entry.player} - ${entry.moves} moves`;
+    li.textContent = `${entry.player} - ${entry.matchedPairs} matched pairs`;
     memoryLeaderboard.appendChild(li);
   });
 }
 
-// Initialize leaderboard on page load
-updateLeaderboard();
 
+updateLeaderboard();
 document.getElementById('startBtn').addEventListener('click', startGame);
