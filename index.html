@@ -75,18 +75,17 @@
     </div>
   </div>
 </section>
-<!-- Click-the-Meme Game -->
-<section id="game" class="game">
-  <h2 class="gradient-text">Click the Meme 😂🎯</h2>
-  <p>Enter your nickname to play:</p>
-  <input type="text" id="playerName" placeholder="Your nickname">
+<!-- Memory Match Game Section -->
+<section id="memory-game" class="memory-game-section">
+  <h2 class="gradient-text">Memory Match Game 🧠✨</h2>
+  <p>Player: <input type="text" id="playerName" placeholder="Enter your name"></p>
   <button id="startBtn">Start Game</button>
+  <p>Moves: <span id="movesCount">0</span> | Time Left: <span id="timer">20</span>s</p>
 
-  <div id="gameArea" class="game-area"></div>
-  <p>Score: <span id="score">0</span></p>
+  <div id="memoryBoard" class="memory-board"></div>
 
-  <h3>Leaderboard</h3>
-  <ul id="leaderboard"></ul>
+  <h3 class="gradient-text">Leaderboard 🏆</h3>
+  <ol id="memoryLeaderboard"></ol>
 </section>
 
 <!-- Contact -->
