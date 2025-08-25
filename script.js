@@ -1,3 +1,13 @@
+document.getElementById("startBtn").addEventListener("click", function() {
+  document.getElementById("introScreen").style.display = "none";
+  const main = document.getElementById("mainContent");
+  main.style.display = "block";
+  setTimeout(() => main.classList.add("show"), 50);
+});
+
+
+
+// 🎮 Memory Game
 const emojis = ['💻','🎨','🚀','📚','😂','🐾','☕','🍕','😎','😹'];
 let gameEmojis = [];
 let firstCard = null;
@@ -6,26 +16,22 @@ let moves = 0;
 let matched = 0;
 let timeLeft = 20;
 let timerInterval;
-let busy = false; // To prevent clicking while cards flip back
-
-// Leaderboard from localStorage
-const leaderboard = JSON.parse(localStorage.getItem('memoryLeaderboard') || '[]');
+let busy = false;
 
 const memoryBoard = document.getElementById('memoryBoard');
 const movesCount = document.getElementById('movesCount');
 const timerDisplay = document.getElementById('timer');
-const memoryLeaderboard = document.getElementById('memoryLeaderboard');
+const startBtn = document.getElementById('startBtn');
+
+startBtn.addEventListener("click", startGame);
 
 function startGame() {
   const player = document.getElementById('playerName').value || 'Anonymous';
   moves = 0; matched = 0; timeLeft = 20;
   movesCount.textContent = moves;
   timerDisplay.textContent = timeLeft;
-
   memoryBoard.innerHTML = '';
-
-  gameEmojis = [...emojis, ...emojis];
-  gameEmojis.sort(() => Math.random() - 0.5);
+  gameEmojis = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
 
   gameEmojis.forEach((emoji) => {
     const card = document.createElement('div');
@@ -61,6 +67,7 @@ function flipCard(card) {
       secondCard.classList.add('matched');
       matched += 2;
       resetFlip();
+
       if (matched === gameEmojis.length) endGame(document.getElementById('playerName').value || 'Anonymous');
     } else {
       busy = true;
@@ -83,27 +90,5 @@ function resetFlip() {
 
 function endGame(player) {
   clearInterval(timerInterval);
-  const matchedPairs = matched / 2; // total matched pairs
-  alert(`Game Over! Matched Pairs: ${matchedPairs}`);
-
-  // Save to leaderboard
-  leaderboard.push({player, matchedPairs});
-  leaderboard.sort((a, b) => b.matchedPairs - a.matchedPairs); // highest first
-  if (leaderboard.length > 5) leaderboard.splice(5);
-  localStorage.setItem('memoryLeaderboard', JSON.stringify(leaderboard));
-  updateLeaderboard();
+  alert(`🎉 Game Over, ${player}! You matched ${matched / 2} pairs in ${moves} moves 🎉`);
 }
-
-
-function updateLeaderboard() {
-  memoryLeaderboard.innerHTML = '';
-  leaderboard.forEach(entry => {
-    const li = document.createElement('li');
-    li.textContent = `${entry.player} - ${entry.matchedPairs} matched pairs`;
-    memoryLeaderboard.appendChild(li);
-  });
-}
-
-
-updateLeaderboard();
-document.getElementById('startBtn').addEventListener('click', startGame);

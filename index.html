@@ -6,110 +6,105 @@
   <meta name="description" content="Bhavya's fun mini portfolio 🚀 coding + memes + pets">
   <title>Bhavya | Fun Portfolio</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
   <script src="https://kit.fontawesome.com/6f5b67d6f1.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
-<!-- Floating Emojis Background -->
-<div class="emoji-bg">
-  <span>💻</span><span>☕</span><span>🎨</span><span>😂</span><span>🚀</span>
-  <span>🐾</span><span>🍕</span><span>😎</span>
+<!-- Intro Screen -->
+<div id="introScreen">
+  <div class="intro-content">
+    <h1 class="gradient-text">✨ Welcome ✨</h1>
+    <button id="startBtn" class="btn">Click to know about me 🚀</button>
+  </div>
 </div>
 
-<!-- Hero / Intro -->
-<section id="home" class="hero">
-  <img src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" alt="Bhavya" class="profile-img">
-  <h1 class="gradient-text">Hey, I'm Bhavya 👋</h1>
-  <p>Coding by day, memes by night 😎💻 | Fueled by ☕ + 🍕</p>
-  <a href="#contact" class="btn">Say Hi!</a>
-  <div class="social-icons">
+<!-- Main Website Content (hidden initially) -->
+<div id="mainContent" style="display:none;">
+
+  <!-- HERO SECTION -->
+  <section id="home" class="hero fade-in">
+    <img src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" alt="Bhavya" class="profile-img glow">
+    <h1 class="gradient-text bounce">Hey, I'm Bhavya 👋</h1>
+    <p class="typewriter">Coding by day, memes by night 😎💻 | Fueled by ☕ + 🍕</p>
+    <a href="#contact" class="btn pulse">Say Hi!</a>
+  
+
+  <!-- other sections of your website go here -->
+
+
+
     <a href="https://github.com/ganisettibhavya-a11y" target="_blank"><i class="fab fa-github"></i></a>
     <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
   </div>
 </section>
-
-<!-- About / Funny -->
-<section id="about" class="about">
+ </main>
+<!-- About -->
+<section id="about" class="about slide-up">
   <h2 class="gradient-text">About Me 😜</h2>
   <p>Playful, curious, meme-lover 😹 | Explorer of tech & coffee ☕ | Sometimes serious, mostly sarcastic 😏</p>
 </section>
 
 <!-- Skills -->
-<section id="skills" class="skills">
+<section id="skills" class="skills fade-in">
   <h2 class="gradient-text">Mostly Productive, Sometimes Legendary 🚀😂</h2>
   <div class="cards">
-    <div class="card">💻 Coding</div>
-    <div class="card">🎨 creating</div>
-    <div class="card">🚀 Exploring</div>
-    <div class="card">📚 Learning</div>
-    <div class="card">😂 Roasting</div>
+    <div class="card tilt">💻 Coding</div>
+    <div class="card tilt">🎨 Creating</div>
+    <div class="card tilt">🚀 Exploring</div>
+    <div class="card tilt">📚 Learning</div>
+    <div class="card tilt">😂 Roasting</div>
   </div>
 </section>
 
-<!-- Admire Section -->
-<section id="admire" class="admire">
-  <h2 class="gradient-text">Heroes Who Inspire 💖& Pets Who Delight 😎🐾 </h2>
+<!-- Admire -->
+<section id="admire" class="admire glow-border">
+  <h2 class="gradient-text">Heroes Who Inspire 💖 & Pets Who Delight 🐾</h2>
   <div class="admire-cards">
-    <div class="admire-card">
+    <div class="admire-card shimmer">
       <img src="https://i.pinimg.com/736x/7b/01/b7/7b01b7dfcbaa4d80235f0e1d424a0b4f.jpg" alt="Virat Kohli">
       <h3>Virat 🏏</h3>
       <p>Chasing dreams like a boss.</p>
     </div>
-    <div class="admire-card">
+    <div class="admire-card shimmer">
       <img src="https://i.pinimg.com/736x/75/84/43/7584432d91da3b3e902fa76466b1c279.jpg" alt="Pawan Kalyan">
       <h3>Pawan Kalyan 🙌</h3>
       <p>Cool, calm, & people's champ.</p>
     </div>
-    <div class="admire-card">
+    <div class="admire-card shimmer">
       <img src="https://i.pinimg.com/736x/21/de/6a/21de6a8b65a26023fcb1a3ed34e111ec.jpg" alt="Lord Krishna">
       <h3>Krishna 🪕</h3>
       <p>Wisdom, love, and mischief.</p>
     </div>
-    <div class="admire-card">
+    <div class="admire-card shimmer">
       <img src="https://i.pinimg.com/736x/82/97/de/8297dee2d3f3e92a18cca6191d35938d.jpg" alt="Dog">
       <h3>Doggo 🐾</h3>
       <p>Ultimate loyal buddy.</p>
     </div>
   </div>
 </section>
-<!-- Memory Match Game Section -->
-<section id="memory-game" class="memory-game-section">
+
+<!-- Memory Game -->
+<section id="memory-game" class="memory-game-section slide-up">
   <h2 class="gradient-text">Memory Match Game 🧠✨</h2>
-  
-  <!-- Funny description with emojis -->
   <p class="funny-desc">Go ahead, show off 😎✨… But I know you’ll forget the first pair 😂💥</p>
-
   <p>Player: <input type="text" id="playerName" placeholder="Enter your name"></p>
-  <button id="startBtn">Start Game</button>
+  <button id="startBtn" class="btn pulse">Start Game</button>
   <p>Moves: <span id="movesCount">0</span> | Time Left: <span id="timer">20</span>s</p>
-
   <div id="memoryBoard" class="memory-board"></div>
-
-  <h3 class="gradient-text">Leaderboard 🏆</h3>
-  <button id="clearLeaderboardBtn">Clear Leaderboard</button>
-  <ol id="memoryLeaderboard"></ol>
 </section>
 
-
-
 <!-- Contact -->
-<section id="contact" class="contact">
+<section id="contact" class="contact fade-in">
   <h2 class="gradient-text">Connect with Me 📩</h2>
-  <p>Check My Profile 👀: <a href="https://www.instagram.com/bhavya_ganisetti.18?igsh=MWlybG03OXZjdHprNA==" target="_blank">@bhavya_ganisetti.18</a></p>
+  <p>Instagram: <a href="https://www.instagram.com/bhavya_ganisetti.18" target="_blank">@bhavya_ganisetti.18</a></p>
   <p>Email: <a href="mailto:ganisettivinayi@gmail.com">ganisettivinayi@gmail.com</a></p>
 </section>
 
-
-
 <!-- Footer -->
-<footer>
-  <p>Made with ❤️, coffee ☕, and memes 😂</p>
+<footer class="glow">
+  <p>✨ Made with ❤️, coffee ☕, and memes 😂 ✨</p>
 </footer>
 
-<!-- JS for Floating Emojis Animation -->
 <script src="script.js"></script>
 </body>
 </html>
