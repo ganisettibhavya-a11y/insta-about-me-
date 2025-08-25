@@ -41,13 +41,17 @@ function startGame() {
     memoryBoard.appendChild(card);
   });
 
-  clearInterval(timerInterval);
+  // ✅ Stop old timer if still running
+  if (timerInterval) clearInterval(timerInterval);
+
   timerInterval = setInterval(() => {
     timeLeft--;
     timerDisplay.textContent = timeLeft;
     if (timeLeft <= 0) endGame(player);
   }, 1000);
 }
+
+
 
 function flipCard(card) {
   if (card.classList.contains('flipped') || card.classList.contains('matched') || busy) return;
@@ -89,6 +93,13 @@ function resetFlip() {
 }
 
 function endGame(player) {
-  clearInterval(timerInterval);
-  alert(`🎉 Game Over, ${player}! You matched ${matched / 2} pairs in ${moves} moves 🎉`);
+  clearInterval(timerInterval); // ✅ stop the timer completely
+  timerInterval = null;         // reset reference
+
+  alert(`🎉 Game Over! You matched ${matched / 2} pairs 🎉`);
+
+  // Optionally reset board so it looks clean
+  memoryBoard.innerHTML = '';
+  movesCount.textContent = "0";
+  timerDisplay.textContent = "0";
 }
