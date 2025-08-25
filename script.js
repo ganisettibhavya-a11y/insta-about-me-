@@ -1,11 +1,10 @@
-document.getElementById("startBtn").addEventListener("click", function() {
+// 🚀 Intro screen button
+document.getElementById("introStartBtn").addEventListener("click", function() {
   document.getElementById("introScreen").style.display = "none";
   const main = document.getElementById("mainContent");
   main.style.display = "block";
   setTimeout(() => main.classList.add("show"), 50);
 });
-
-
 
 // 🎮 Memory Game
 const emojis = ['💻','🎨','🚀','📚','😂','🐾','☕','🍕','😎','😹'];
@@ -21,9 +20,10 @@ let busy = false;
 const memoryBoard = document.getElementById('memoryBoard');
 const movesCount = document.getElementById('movesCount');
 const timerDisplay = document.getElementById('timer');
-const startBtn = document.getElementById('startBtn');
+const gameStartBtn = document.getElementById('gameStartBtn');
 
-startBtn.addEventListener("click", startGame);
+// attach only for the game button
+gameStartBtn.addEventListener("click", startGame);
 
 function startGame() {
   const player = document.getElementById('playerName').value || 'Anonymous';
